@@ -9,8 +9,8 @@ story_turns_since_sync: 0
 github_sync_enabled: true
 initial_package_sync_required: false
 pending_sync: false
-last_synced_commit: null
-last_synced_at: null
+last_synced_commit: 6e07161a4db311f4341b05a368030a252a606ec5
+last_synced_at: 2026-08-26
 ```
 
 ## 计数规则
