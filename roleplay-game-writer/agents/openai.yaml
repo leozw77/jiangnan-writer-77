@@ -1,0 +1,5 @@
+interface:
+  display_name: "角色扮演游戏叙事工坊"
+  short_description: "连续主持中文角色扮演游戏并维护剧情状态"
+  default_prompt: "Use $roleplay-game-writer to continue my role-playing game from its project memory, preserve player agency, and emit a save_state block."
+
