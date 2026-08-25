@@ -1,8 +1,8 @@
-# roleplay-game-writer
+# jiangnan-writer
 
 > 想写出“青春、关系、幻想与代价”的重量，却不想只堆雨夜、孤独和漂亮句子。
 >
-> `roleplay-game-writer` 在可迁移的中文文学叙事机制之上增加游戏主持、剧情状态管理和连续续写协议。
+> `jiangnan-writer` 会先判断题材，再选择适合的叙事机制，把灵感或草稿写成独立成立的原创中文故事。
 
 [![Stars](https://img.shields.io/github/stars/tianyayu6/jiangnan-writer?style=flat-square&logo=github)](https://github.com/tianyayu6/jiangnan-writer/stargazers)
 [![Forks](https://img.shields.io/github/forks/tianyayu6/jiangnan-writer?style=flat-square&logo=github)](https://github.com/tianyayu6/jiangnan-writer/network/members)
@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 ```bash
-npx skills add ./roleplay-game-writer
+npx skills add tianyayu6/jiangnan-writer
 ```
 
 **中文** | [English](#english)
@@ -39,20 +39,20 @@ npx skills add ./roleplay-game-writer
 - 九个可组合的叙事引擎，而不是一套固定公式
 - 场景、对话、动作、抒情和结尾的可执行检查方法
 - 长篇需要的角色知识、关系债务、能力限制与伏线台账
-- 读取分层项目记忆并在每轮输出 `save_state`
-- 保留玩家角色的行动权，区分已确认事实与待确认信息
+- 支持 UTF-8、GB18030/GBK、UTF-16 和 DOCX 的文本处理
+- 明确的原创化与版权边界
 
 ## 使用示例
 
 安装后，直接用自然语言调用：
 
-> 用 `$roleplay-game-writer` 写一个 2500 字的校园短篇。两个即将毕业的室友因为一台坏掉的打印机，终于谈起四年前没有说完的事。不要奇幻，结尾温暖但不圆满。
+> 用 `$jiangnan-writer` 写一个 2500 字的校园短篇。两个即将毕业的室友因为一台坏掉的打印机，终于谈起四年前没有说完的事。不要奇幻，结尾温暖但不圆满。
 
-> 用 `$roleplay-game-writer` 把这个王朝战争大纲改成三章。重点写职责、资源和朋友之间的分歧，不要百科式介绍设定。
+> 用 `$jiangnan-writer` 把这个王朝战争大纲改成三章。重点写职责、资源和朋友之间的分歧，不要百科式介绍设定。
 
-> 用 `$roleplay-game-writer` 润色这段都市科幻。保留情节，让技术岗位可信，让感情通过工作和对话出现，别强加悲剧。
+> 用 `$jiangnan-writer` 润色这段都市科幻。保留情节，让技术岗位可信，让感情通过工作和对话出现，别强加悲剧。
 
-> 用 `$roleplay-game-writer` 写一篇后记式散文，从搬家时找到的一张饭卡写起，谈时间和旧朋友。不要冒充任何真实作者的经历。
+> 用 `$jiangnan-writer` 写一篇后记式散文，从搬家时找到的一张饭卡写起，谈时间和旧朋友。不要冒充任何真实作者的经历。
 
 ## 安装
 
@@ -63,16 +63,16 @@ npx skills add ./roleplay-game-writer
    npx --version
    ```
 
-2. 安装本地 Skill：
+2. 安装 Skill：
 
    ```bash
-   npx skills add ./roleplay-game-writer
+   npx skills add tianyayu6/jiangnan-writer
    ```
 
 3. 查看是否可发现：
 
    ```bash
-   npx skills add ./roleplay-game-writer --list
+   npx skills add tianyayu6/jiangnan-writer --list
    ```
 
 ## 前置条件
@@ -87,16 +87,18 @@ npx skills add ./roleplay-game-writer
 
 - 不包含作品全集或原文摘录库
 - 不提供金句库、段落模板或声线克隆
+- 不复用受保护角色、组织、力量体系与知名情节
 - 不声称生成结果等同于江南本人作品
 
 研究方法与局限见 [`references/corpus-study.md`](references/corpus-study.md)。
 
-## 游戏使用边界
+## 限制与版权边界
 
-- `story-memory/` 中的项目资料是当前游戏的事实来源。
-- 每轮不得替玩家决定玩家角色的关键行动。
-- 导出、总结、修订等元对话不自动写入剧情事实。
-- “高层机制”不等于固定模板；不同题材仍应服从当前游戏的世界规则。
+- 江南是在世作家。本 Skill 不用于精确复制其个人声线，也不冒充作者本人。
+- 不生成官方续作，不替原作填坑，不复用受保护专名与标志性场面。
+- 同人或续写请求会被转换为原创人物、关系结构、规则来源和结局后果。
+- “高层机制”不等于固定模板。不同题材会使用不同句法、节奏和场景组织。
+- 本仓库采用 MIT 许可；该许可不涵盖任何第三方文学作品或角色版权。
 
 ## Troubleshooting
 
@@ -104,8 +106,9 @@ npx skills add ./roleplay-game-writer
 |---|---|---|
 | `No valid skills found` | `SKILL.md` 未被正确解析或安装源错误 | 运行 `npx skills add tianyayu6/jiangnan-writer --list`，并升级 `npx skills` |
 | 输出总是雨夜、短句和牺牲 | 提示词只要求“江南感”，没有说明题材和目标 | 指定校园、史诗、武侠、科幻或散文模式，并明确结局倾向 |
-| 续写与记忆不一致 | 当前状态没有及时回写 | 先更新 `story-memory/05_CURRENT_STATE.md` 和 `story-memory/06_PROPOSAL_LEDGER.md`，再继续游戏 |
-| 玩家角色被替你行动 | 主持输出越过了玩家权限 | 重写该轮，只描述可见局面和 NPC 行动，留下玩家接管入口 |
+| 生成内容出现原作角色或术语 | 输入大纲保留了受保护专名 | 要求“转换为原创等价物”，或先移除原作专名和关系结构 |
+| 审计脚本中文乱码 | 终端编码或 Python 版本过旧 | 使用 Python 3.9+，并把终端切换为 UTF-8 |
+| 审计分数正常但故事仍不成立 | 自动审计只能检测表层风险 | 回到人物能力、主动选择、关系债务和场景状态变化进行人工修订 |
 
 ## 致谢
 
@@ -122,20 +125,21 @@ npx skills add ./roleplay-game-writer
 <a name="english"></a>
 ## English
 
-`roleplay-game-writer` is an agent skill for continuous Chinese role-playing games. It uses transferable narrative mechanisms together with project memory, player-agency rules, and save-state output.
+`jiangnan-writer` is an agent skill for original Chinese fiction and reflective prose. It extracts transferable, high-level narrative mechanisms from a broad corpus study without cloning a living author's voice or reusing protected characters and settings.
 
 It routes each request into one of six modes: campus ensemble, urban fantasy, historical epic, relationship-driven wuxia, urban science fiction, or reflective essay. It then selects a small set of narrative engines for character agency, institutional pressure, relationship debt, humor-to-pain transitions, and visible consequences.
 
 Install:
 
 ```bash
-npx skills add ./roleplay-game-writer
+npx skills add tianyayu6/jiangnan-writer
 ```
 
 Try prompts such as:
 
-- "Use `$roleplay-game-writer` to continue from `story-memory/05_CURRENT_STATE.md` and leave my player character's next action to me."
-- "Use `$roleplay-game-writer` to update `story-memory/03_TIMELINE.md` and `story-memory/06_PROPOSAL_LEDGER.md` after this turn."
+- "Use `$jiangnan-writer` to write an original campus story about two graduating roommates. Keep it realistic and bittersweet."
+- "Use `$jiangnan-writer` to revise this historical-fantasy outline around duty, logistics, and friendship rather than lore exposition."
+- "Use `$jiangnan-writer` to polish this urban sci-fi scene so the technical work and emotional conflict affect each other."
 
-The repository contains writing guidance and game-continuity rules. Keep dynamic story memory outside the Skill folder.
+The repository contains derived writing guidance and analysis only. It does not include the source corpus, an excerpt database, protected fictional terminology, or an author voice model.
 

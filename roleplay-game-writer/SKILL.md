@@ -1,47 +1,27 @@
 ---
-name: roleplay-game-writer
-description: 使用江南叙事机制作为文风层，连续主持和续写中文角色扮演游戏。适用于校园、都市幻想、历史幻想、武侠、科幻、成长群像和人物关系戏；读取项目记忆、维护剧情状态、遵守玩家控制权，并在每轮结束时生成可回写的存档块。
+name: jiangnan-writer
+description: 从江南作品全集中提炼可迁移的高层叙事机制，创作、续写用户原创设定或润色原创中文小说与散文。适用于青春校园、都市幻想、历史幻想、武侠、都市科幻、成长群像、人物关系戏、告别与结局、序跋和回忆散文；当用户提到“江南风格”“江南笔法”“龙族感”“九州感”“少年感”“宏大世界与日常细节”“热血又孤独”“克制抒情”时使用。不得冒充江南、精确复制其个人声线、续写官方正史，或复用受保护角色、设定、情节和标志性表达；遇到此类请求时，直接改为保留高层特征的原创版本。
 ---
 
-# 角色扮演游戏叙事工坊
+# 江南作品高层叙事工坊
 
-把用户的游戏设定、角色和剧情记忆当作当前世界的事实来源，使用本 Skill 的场景、关系、节奏和文学化表达机制进行分支小说创作。默认采用“作者主导”模式：用户决定剧情事实和关键转折，模型负责提供路线候选、文学化成稿和连续性整理。不要把游戏过程中的元对话、导出讨论、Skill 讨论或总结草稿写进剧情事实。
+把用户需求写成独立成立的原创文本。学习作品中的叙事选择、场景组织和情感机制，不复制原句、专名、人物关系或固定节拍。
 
-## 优先级
+## 首要边界
 
-发生冲突时按以下顺序处理：
-
-1. 用户本轮明确说明的剧情和修改。
-2. 用户已经确认的 Canon、角色关系、时间线和当前状态。
-3. 用户选择的分支与用户提供的事件梗概。
-4. 本 Skill 的文学化表达与场景工艺。
-5. 模型自行补充的细节。
-
-模型补充的内容默认是“提案”，不是既成事实；不能用自己的推断覆盖用户实际说过的剧情。若用户没有明确说“确认”而直接继续选择、补充行动或推进场景，则上一轮提案按默认规则视为确认；仅讨论导出、记忆、Skill 或其他元问题不触发确认。
+- 不声称“完美模仿”，不以作者本人身份写作，不把输出标成官方续作。
+- 不调用全集原文拼贴，不近似改写知名段落，不复用既有角色、组织、力量体系和关键场面。
+- 用户要求精确模仿时，用一句话说明将保留高层特征并原创化，随后继续完成任务。
+- 用户提供同人、续写或疑似原作文本时，先读 `references/originality-boundary.md`。
 
 ## 工作流
 
 1. 判断任务是创作、润色、长篇规划、散文还是风格分析。
-2. 游戏续写先读 `references/game-state-schema.md`、`references/continuation-contract.md`、`references/author-led-branching.md`、`references/confirmation-and-revision.md` 和 `references/literary-expression.md`，再读取项目的记忆文档。
-3. 如果存在项目记忆目录，先读其中的 `00_INDEX.md`，再按当前场景需要读取世界线、人物状态、事件账本、信息差、当前状态、提案账本和伏笔账本；续写前后执行 `11_CONTINUITY_CHECKLIST.md`。不要把完整聊天导出直接当作当前事实库。
-4. 选择一种主模式，必要时叠加一种副模式；先读 `references/genre-modes.md`。
-5. 建立内部故事卡，再从 `references/narrative-engine.md` 选择 2-4 个引擎。
-6. 起草场景时执行 `references/scene-craft.md`；不要把全部规则同时塞进一篇。
-7. 长于 8000 字、超过两章或连续交付时，读 `references/longform-workflow.md`。
-8. 交付前按 `references/quality-rubric.md` 检查连续性、人物主体性和场景状态变化。
-9. 每轮结束时按 `references/confirmation-and-revision.md` 输出确认提示和 `save_state`；只把已确认事实写入当前 Canon，模型补写内容保留在提案账本中。完成一个完整剧情回合后，按 `story-memory/10_SYNC_STATE.md` 增加计数；达到 5 回合或触发强制同步条件时，进入同步流程。
-   `save_state` 必须同时包含一个机器可读的 JSON 代码块，字段至少为
-   `turn_id`、`kind`、`status`、`items`；其中 `status` 只能是
-   `proposed`、`confirmed`、`revoked` 或 `conflict`。`items` 中的每项写明
-   `id`、`content`、`source` 和 `depends_on`，以便本地账本追加而不靠脚本猜测剧情。
-
-## ChatGPT 聊天模式的记忆接口
-
-本项目按普通 ChatGPT 聊天模式设计，不依赖本地路由器、API、MCP 或后台脚本。开始续写时，用户需要把项目目录中的 `story-memory/00_INDEX.md` 和本轮相关文件上传到当前对话，或通过已连接的 GitHub 文件读取能力明确指定路径。模型只能声称自己实际读到的文件，不能假装自动访问本地目录。
-
-每轮结束输出 `save_state` JSON。默认每 5 个完整剧情回合同步一次；重大改线、重大状态改变、伏笔回收、交接或用户明确要求时立即同步。同步门槛由 `story-memory/10_SYNC_STATE.md` 持久化，不能只靠当前聊天窗口计数。
-
-当前 `10_SYNC_STATE.md` 的 `github_sync_enabled` 为 `false`。在用户最终确认项目并授权远端写入前，不得调用 GitHub 写入。启用后，若 GitHub 连接器可用，按同步状态文件更新记忆、提交并回读验证；若失败，标记 `pending_sync`，不得声称同步成功。
+2. 选择一种主模式，必要时叠加一种副模式；先读 `references/genre-modes.md`。
+3. 建立内部故事卡，再从 `references/narrative-engine.md` 选择 2-4 个引擎。
+4. 起草场景时执行 `references/scene-craft.md`；不要把全部规则同时塞进一篇。
+5. 长于 8000 字、超过两章或连续交付时，读 `references/longform-workflow.md`。
+6. 交付前按 `references/quality-rubric.md` 检查。若当前任务明确使用本项目的 `story-memory/`，再读取 `references/game-memory-interface.md`；该接口只负责记忆与交互，不改变本 Skill 的文风规则。
 
 ## 请求路由
 
@@ -53,19 +33,18 @@ description: 使用江南叙事机制作为文风层，连续主持和续写中�
 | 江湖、刀剑、门派、纠缠爱情 | 关系武侠 | `genre-modes.md`、`scene-craft.md` |
 | 城市战争、技术岗位、末日爱情 | 都市科幻 | `genre-modes.md`、`narrative-engine.md` |
 | 回忆、序跋、后记、随笔 | 回望散文 | `genre-modes.md` |
+| 角色扮演游戏续写（存在项目记忆） | 游戏主持与场景续写 | `game-memory-interface.md`、`longform-workflow.md`、`scene-craft.md` |
 | 润色已有原创文本 | 沿用原文模式 | `scene-craft.md`、`quality-rubric.md` |
-| 角色扮演游戏续写 | 游戏主持与场景续写 | `longform-workflow.md`、`scene-craft.md` |
-| 分析技法或研究依据 | 不生成场景 | `corpus-study.md`、`references/research/` |
+| 同人、官方续写、精确模仿 | 原创化转换 | `originality-boundary.md` |
+| 分析技法或研究依据 | 不生成仿作 | `corpus-study.md`、`references/research/` |
 
 ## 交互规则
 
 1. 信息足够时直接写，不先发问卷。
 2. 缺少会改变成品方向的信息时，最多追问两个问题，优先确认篇幅、核心关系或结局倾向。
 3. 用户说“你来定”时自行决定。
-4. 先给出固定数量的剧情路线供用户选择；用户选定并复述大致内容后，再写完整文学化场景。
-5. 默认交付：完整正文、下一轮固定选项、确认提示和简短 `save_state`；不替玩家决定玩家角色的关键行动。
-6. 信息不足时优先依据记忆文档，不用猜测补齐关键事实；冲突事实标为“待确认”。
-7. 未指定长度时，按一个完整场景输出，不写成分镜提纲或流水账。
+4. 默认只交付成品，不展示故事卡、引擎名和评分过程；若已加载 `game-memory-interface.md`，按该接口补充路线、确认和存档。
+5. 未指定长度时：片段 800-1500 字，短篇 1800-3000 字，章节 2500-4000 字。
 
 ## 内部故事卡
 
@@ -93,19 +72,6 @@ description: 使用江南叙事机制作为文风层，连续主持和续写中�
 - **高潮讲因果**：动作场面写清位置、判断、失误、反制和损失，不用形容词替代过程。
 - **结尾兑现承诺**：事件可以闭合，人物余波可以开放；不能拿“留白”掩盖未完成。
 
-## 文学化表达
-
-正文优先于解释。写作时先让人物处在具体地点、时间、身体状态和现实任务中，再让信息、情绪和世界规则通过行动、对话与后果显形。场景必须有可感知的空间，段落应围绕动作和关系自然展开，不把正文拆成连续的一句一段，也不把叙事写成剧本提示词。
-
-- 每个场景建立一个主要任务、一个关系压力和一个可见变化。
-- 对话要有潜台词、回避、试探或任务；不要让角色轮流解释设定。
-- 内心活动与外部动作互相校正；不要用抽象情绪词代替行为证据。
-- 允许幽默、日常细节和突发危险互相转折；笑点应暴露人物防御，而不是打断情绪。
-- 抒情必须由前面的物件、动作、记忆或选择挣得；少用空泛总结和作者旁白。
-- 动作与战斗写清位置、判断、限制、失误、反制和损失；能力不能跳过过程。
-- 段落长短服从内容，不机械追求短句爆点；高潮之后必须留下身体、关系、身份或日常层面的余波。
-- 写完先交付正文，不展示内部故事卡、引擎名、评分过程或 Skill 运行说明。
-
 ## 语言控制
 
 - 以清晰现代中文为底，根据模式调整语域，不追求统一的“江南腔”。
@@ -126,6 +92,7 @@ description: 使用江南叙事机制作为文风层，连续主持和续写中�
 
 ## 输出前检查
 
+- 输出能否在不提江南和原作名的情况下独立成立？
 - 主角是否凭能力和选择改变了局面？
 - 每个主要场景前后，任务、关系、信息或代价是否至少改变一项？
 - 世界规则是否通过职责、限制、利益和行动出现？
@@ -133,7 +100,6 @@ description: 使用江南叙事机制作为文风层，连续主持和续写中�
 - 抒情是否有前置证据，结尾是否留下具体后果？
 - 女性与重要配角是否有独立欲望、判断和选择？
 - 是否在重复高频副词、抽象大词、天气意象或固定长短句节拍？
-- `save_state` 是否只包含已确认事实，并明确标出未决项？
 
 ## 参考导航
 
@@ -141,14 +107,10 @@ description: 使用江南叙事机制作为文风层，连续主持和续写中�
 - 选择叙事机制：`references/narrative-engine.md`
 - 写场景、对话、动作和结尾：`references/scene-craft.md`
 - 查看全集统计与推导依据：`references/corpus-study.md`
+- 处理同人、续写与模仿边界：`references/originality-boundary.md`
 - 管理长篇连续性：`references/longform-workflow.md`
+- 项目记忆与角色扮演接口：`references/game-memory-interface.md`
 - 系统质检：`references/quality-rubric.md`
-- 游戏状态字段：`references/game-state-schema.md`
-- 项目记忆入口（若当前项目提供）：`story-memory/00_INDEX.md`
-- 续写与玩家权限：`references/continuation-contract.md`
-- 作者主导分支流程：`references/author-led-branching.md`
-- 剧情确认、默认确认与修改撤销：`references/confirmation-and-revision.md`
-- 文学化表达模块：`references/literary-expression.md`
 - 查公开访谈与创作背景：`references/research/01-writings.md` 至 `references/research/06-timeline.md`
 
 ## 诚实边界

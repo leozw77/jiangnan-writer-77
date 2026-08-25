@@ -1,5 +1,5 @@
 interface:
-  display_name: "角色扮演游戏叙事工坊"
-  short_description: "连续主持中文角色扮演游戏并维护剧情状态"
-  default_prompt: "Use $roleplay-game-writer to continue my role-playing game from its project memory, preserve player agency, and emit a save_state block."
+  display_name: "江南作品高层叙事工坊"
+  short_description: "创作校园、幻想、史诗、武侠、科幻与回望散文"
+  default_prompt: "Use $jiangnan-writer to turn my idea into an original Chinese story with the right genre mode and earned emotion."
 
